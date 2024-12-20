@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Image Demo</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+			
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const canvas = document.createElement("canvas");
+        document.body.appendChild(canvas);
+
+
+        let ctx = canvas.getContext("2d");
+        let image = new Image();
+        let sound;
+
+        let scale = 0.415;
+        let dRight = 0;
+        let dLeft = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function loadImage() {
+            image.src = "dining-hall.jpg";
+            image.onload = function() {
+                draw();
+            };
+        }
+
+        function loadSound() {
+            sound = new Audio("AllNightAllDay.mp3");
+            sound.play();
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, dRight, dLeft, image.width * scale, image.height * scale);
+        }
+
+        function update(deltaTime) {
+            if (keyboard.isKeyDown("e")) {
+                scale -= 0.002;
+            }
+            if (keyboard.isKeyDown("q")) {
+                scale += 0.002;
+            }
+            if (keyboard.isKeyDown(" ")) { // Space key
+                scale -= 0.002;
+            }
+            if (keyboard.isKeyDown("Enter")) {
+                scale += 0.002;
+            }
+            if (keyboard.isKeyDown("a")) {
+                dRight += 5;
+            }
+            if (keyboard.isKeyDown("d")) {
+                dRight -= 5;
+            }
+            if (keyboard.isKeyDown("w")) {
+                dLeft += 5;
+            }
+            if (keyboard.isKeyDown("s")) {
+                dLeft -= 5;
+            }
+            if (keyboard.isKeyDown("ArrowLeft")) {
+                dRight += 5;
+            }
+            if (keyboard.isKeyDown("ArrowRight")) {
+                dRight -= 5;
+            }
+            if (keyboard.isKeyDown("ArrowUp")) {
+                dLeft += 5;
+            }
+            if (keyboard.isKeyDown("ArrowDown")) {
+                dLeft -= 5;
+            }
+
+            draw();
+        }
+
+        const keyboard = {
+            keys: {},
+            isKeyDown: function(key) {
+                return this.keys[key.toLowerCase()] || false;
+            }
+        };
+
+        window.addEventListener("keydown", function(e) {
+            keyboard.keys[e.key.toLowerCase()] = true;
+        });
+
+        window.addEventListener("keyup", function(e) {
+            delete keyboard.keys[e.key.toLowerCase()];
+        });
+
+        window.addEventListener("resize", resizeCanvas);
+
+        resizeCanvas();
+        loadImage();
+        loadSound();
+
+        // Simulate update loop (adjust as needed)
+        setInterval(() => update(1/60), 1000/60);
+    </script>
+</body>
+</html>
