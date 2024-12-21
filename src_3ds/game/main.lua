@@ -6,7 +6,7 @@ function love.load()
     joystick = joysticks[1]
 	dh = love.graphics.newImage("dining-hall.jpg")
 	dh_right = love.graphics.newImage("dining-hall-right.jpg")
-	sound = love.audio.newSource("LetOurVoicesRiseLikeIncense.ogg", "stream")
+	sound = love.audio.newSource("AllNightAllDay.ogg", "stream")
 	love.audio.play(sound)
 	love.graphics.set3D(true)
 	
